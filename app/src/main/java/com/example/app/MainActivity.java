@@ -70,6 +70,9 @@ public class MainActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+        List<Todo> todoList;
+        TodoAdapter adapter;
+        StorageHelper store;
 
         public PlaceholderFragment() {
         }
@@ -78,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             final Activity act = this.getActivity();
-            final StorageHelper store = new StorageHelper(this.getActivity());
+            store = new StorageHelper(this.getActivity());
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
             final TextView txt = (TextView)rootView.findViewById(R.id.textView1);
@@ -88,17 +91,11 @@ public class MainActivity extends ActionBarActivity {
 
             ListView lst = (ListView)rootView.findViewById(R.id.listeView);
 
-            List<Todo> todoList = store.getAll();
-            ArrayList<String> dataList = new ArrayList<String>();
+            todoList = store.getAll();
 
-            for(Todo t: todoList) {
-                dataList.add(t.getLabel());
-            }
-
-            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+            adapter = new TodoAdapter(
                     this.getActivity(),
-                    android.R.layout.simple_list_item_1,
-                    dataList);
+                    todoList);
             lst.setAdapter(adapter);
 
             buttonAdd.setOnClickListener(new Button.OnClickListener(){
@@ -108,8 +105,7 @@ public class MainActivity extends ActionBarActivity {
                     store.addTodo(val,"");
                     ed.setText(new String());
 
-                    adapter.insert(val, 0);
-                    adapter.notifyDataSetChanged();
+                    reloadData();
                 }
             });
 
@@ -126,6 +122,12 @@ public class MainActivity extends ActionBarActivity {
 
             return rootView;
         }
-    }
 
+        public void reloadData() {
+            todoList.clear();
+            todoList.addAll(store.getAll());
+            adapter.notifyDataSetChanged();
+        }
+
+    }
 }
