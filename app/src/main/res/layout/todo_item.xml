@@ -4,6 +4,11 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="50dp">
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/todoItemCheckBox" />
+
     <TextView
         android:id="@+id/todoItemTitle"
         style="android:attr/textAppearanceLarge"
@@ -22,4 +27,13 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textSize="15sp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:id="@+id/todoItemRmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:background="@drawable/abc_ic_clear_search_api_holo_light" />
 </LinearLayout>

@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.model.Todo;
@@ -39,8 +41,10 @@ public class TodoAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
+        CheckBox checkbox;
         TextView titleView;
         TextView contentView;
+        Button removeButton;
     }
 
     @Override
@@ -50,14 +54,17 @@ public class TodoAdapter extends BaseAdapter {
             LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.todo_item, parent, false);
             holder = new ViewHolder();
+            holder.checkbox = (CheckBox) convertView.findViewById(R.id.todoItemCheckBox);
             holder.titleView = (TextView) convertView.findViewById(R.id.todoItemTitle);
             holder.contentView = (TextView) convertView.findViewById(R.id.todoItemContent);
+            holder.removeButton = (Button) convertView.findViewById(R.id.todoItemRmButton);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         Todo todo = data.get(i);
+        holder.checkbox.setChecked(todo.isChecked());
         holder.titleView.setText(todo.getLabel());
         holder.contentView.setText(todo.getContent());
         return convertView;
