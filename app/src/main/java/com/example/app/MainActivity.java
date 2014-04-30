@@ -20,10 +20,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.example.model.StorageHelper;
+import com.example.model.Todo;
 import com.example.service.TaskService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends ActionBarActivity {
@@ -40,13 +43,6 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-        SharedPreferences prefs = getSharedPreferences("com.epsi4android.prefs",0);
-        SharedPreferences.Editor ed = prefs.edit();
-        ed.putInt("value",42);
-        ed.commit();
-
-        Log.d("main", "value: " + prefs.getInt("value",0));
     }
 
 
@@ -81,39 +77,35 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
+            final Activity act = this.getActivity();
+            final StorageHelper store = new StorageHelper(this.getActivity());
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-            /*final TextView txt = (TextView)rootView.findViewById(R.id.textView1);
-            txt.setText(R.string.bye_world);
-
-            Button button = (Button)rootView.findViewById(R.id.button);
-            button.setOnClickListener(new Button.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    txt.setText(R.string.hello_world);
-                }
-            });*/
 
             final TextView txt = (TextView)rootView.findViewById(R.id.textView1);
             final EditText ed = (EditText)rootView.findViewById(R.id.editText);
             Button buttonAdd = (Button)rootView.findViewById(R.id.buttonAdd);
             Button buttonDel = (Button)rootView.findViewById(R.id.buttonDel);
 
-            final Activity act = this.getActivity();
-            final TaskService service = new TaskService(act);
             ListView lst = (ListView)rootView.findViewById(R.id.listeView);
+
+            List<Todo> todoList = store.getAll();
+            ArrayList<String> dataList = new ArrayList<String>();
+
+            for(Todo t: todoList) {
+                dataList.add(t.getLabel());
+            }
 
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                     this.getActivity(),
                     android.R.layout.simple_list_item_1,
-                    service.getAll());
+                    dataList);
             lst.setAdapter(adapter);
 
             buttonAdd.setOnClickListener(new Button.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     String val = ed.getText().toString();
-                    service.add(val);
+                    store.addTodo(val,"");
                     ed.setText(new String());
 
                     adapter.insert(val, 0);
@@ -121,16 +113,16 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
 
-            buttonDel.setOnClickListener(new Button.OnClickListener(){
+            /*buttonDel.setOnClickListener(new Button.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    String str = service.removeFirst();
+                    String str = store.
                     Log.d("remove",str);
 
                     adapter.remove(str);
                     adapter.notifyDataSetChanged();
                 }
-            });
+            });*/
 
             return rootView;
         }
