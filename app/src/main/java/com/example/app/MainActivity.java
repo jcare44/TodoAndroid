@@ -109,6 +109,14 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
 
+            adapter.setOnCheckboxChange(new TodoAdapter.OnCheckboxChange(){
+                @Override
+                public void onClick(Todo todo,boolean b) {
+                    todo.setChecked(b);
+                    store.updateTodo(todo);
+                }
+            });
+
             /*buttonDel.setOnClickListener(new Button.OnClickListener(){
                 @Override
                 public void onClick(View v) {

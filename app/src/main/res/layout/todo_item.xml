@@ -27,13 +27,4 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textSize="15sp" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:id="@+id/todoItemRmButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:gravity="right"
-        android:background="@drawable/abc_ic_clear_search_api_holo_light" />
 </LinearLayout>

@@ -9,10 +9,11 @@ public class Todo {
     private String label;
     private String content;
 
-   public Todo(int _id,String _label,String _content){
+   public Todo(int _id,String _label,String _content,boolean _checked){
         this.id = _id;
         this.label = _label;
-       this.content = _content;
+        this.content = _content;
+       this.checked = _checked;
     }
 
     public int getId() {

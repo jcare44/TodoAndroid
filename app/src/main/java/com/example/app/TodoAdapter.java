@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.model.Todo;
 
+import java.util.EventListener;
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ import java.util.List;
 public class TodoAdapter extends BaseAdapter {
     private List<Todo> data;
     private Context context;
+    private OnCheckboxChange listener;
 
     public TodoAdapter(Context _context, List<Todo> _data) {
         context = _context;
@@ -44,12 +47,13 @@ public class TodoAdapter extends BaseAdapter {
         CheckBox checkbox;
         TextView titleView;
         TextView contentView;
-        Button removeButton;
     }
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        final Todo todo = data.get(i);
+
         if(convertView == null) {
             LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.todo_item, parent, false);
@@ -57,16 +61,30 @@ public class TodoAdapter extends BaseAdapter {
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.todoItemCheckBox);
             holder.titleView = (TextView) convertView.findViewById(R.id.todoItemTitle);
             holder.contentView = (TextView) convertView.findViewById(R.id.todoItemContent);
-            holder.removeButton = (Button) convertView.findViewById(R.id.todoItemRmButton);
+
+            holder.checkbox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener(){
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    listener.onClick(todo,b);
+                }
+            });
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Todo todo = data.get(i);
         holder.checkbox.setChecked(todo.isChecked());
         holder.titleView.setText(todo.getLabel());
         holder.contentView.setText(todo.getContent());
         return convertView;
+    }
+
+    interface OnCheckboxChange{
+        public void onClick(Todo todo,boolean b);
+    }
+
+    public void setOnCheckboxChange(OnCheckboxChange _listener){
+        this.listener = _listener;
     }
 }
