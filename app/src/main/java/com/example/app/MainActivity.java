@@ -87,7 +87,6 @@ public class MainActivity extends ActionBarActivity {
             final TextView txt = (TextView)rootView.findViewById(R.id.textView1);
             final EditText ed = (EditText)rootView.findViewById(R.id.editText);
             Button buttonAdd = (Button)rootView.findViewById(R.id.buttonAdd);
-            Button buttonDel = (Button)rootView.findViewById(R.id.buttonDel);
 
             ListView lst = (ListView)rootView.findViewById(R.id.listeView);
 
