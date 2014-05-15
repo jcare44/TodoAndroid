@@ -1,6 +1,7 @@
 package com.example.app;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import java.util.List;
 public class TodoAdapter extends BaseAdapter {
     private List<Todo> data;
     private Context context;
-    private OnCheckboxChange listener;
+    private OnCheckboxClick listener;
 
     public TodoAdapter(Context _context, List<Todo> _data) {
         context = _context;
@@ -62,10 +63,11 @@ public class TodoAdapter extends BaseAdapter {
             holder.titleView = (TextView) convertView.findViewById(R.id.todoItemTitle);
             holder.contentView = (TextView) convertView.findViewById(R.id.todoItemContent);
 
-            holder.checkbox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener(){
+            holder.checkbox.setOnClickListener(new CheckBox.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    listener.onClick(todo,b);
+                public void onClick(View view) {
+                    todo.setChecked(!todo.isChecked());
+                    listener.onClick(todo);
                 }
             });
 
@@ -80,11 +82,11 @@ public class TodoAdapter extends BaseAdapter {
         return convertView;
     }
 
-    interface OnCheckboxChange{
-        public void onClick(Todo todo,boolean b);
+    interface OnCheckboxClick{
+        public void onClick(Todo todo);
     }
 
-    public void setOnCheckboxChange(OnCheckboxChange _listener){
+    public void setOnCheckboxChange(OnCheckboxClick _listener){
         this.listener = _listener;
     }
 }
