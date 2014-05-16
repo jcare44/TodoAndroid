@@ -1,4 +1,4 @@
-package com.example.model;
+package com.todorfvj.model;
 
 /**
  * Created by julien on 30/04/14.

@@ -1,33 +1,24 @@
-package com.example.app;
+package com.todorfvj.app;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.example.model.StorageHelper;
-import com.example.model.Todo;
-import com.example.service.TaskService;
+import com.todorfvj.model.StorageHelper;
+import com.todorfvj.model.Todo;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MainActivity extends ActionBarActivity {
 

@@ -1,19 +1,15 @@
-package com.example.app;
+package com.todorfvj.app;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.example.model.Todo;
+import com.todorfvj.model.Todo;
 
-import java.util.EventListener;
 import java.util.List;
 
 /**
