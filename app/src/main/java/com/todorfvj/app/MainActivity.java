@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,6 +73,8 @@ public class MainActivity extends ActionBarActivity {
         TodoAdapter adapter;
         StorageHelper store;
 
+        EditText ed ;
+
         public PlaceholderFragment() {
         }
 
@@ -80,8 +85,8 @@ public class MainActivity extends ActionBarActivity {
             store = new StorageHelper(this.getActivity());
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-            final TextView txt = (TextView)rootView.findViewById(R.id.textView1);
             final EditText ed = (EditText)rootView.findViewById(R.id.editText);
+            this.ed = ed ;
             Button buttonAdd = (Button)rootView.findViewById(R.id.buttonAdd);
 
             ListView lst = (ListView)rootView.findViewById(R.id.listeView);
@@ -96,6 +101,7 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(Todo todo) {
                     store.update(todo);
+                    reloadData() ;
                 }
             });
 
@@ -105,13 +111,24 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     String val = ed.getText().toString();
+                    if(val == "") return ;
                     Todo todo = new Todo(val, "", false, new Date(), "") ;
-                    Logger.getAnonymousLogger().warning(todo.toString());
                     store.insert(todo);
                     ed.setText("");
                     reloadData();
                 }
             });
+
+            TextWatcher tw = new TextWatcher() {
+                public void afterTextChanged(Editable s){}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+                public void onTextChanged (CharSequence s, int start, int before,int count) {
+                    reloadData();
+                }
+            };
+
+            ed.addTextChangedListener(tw);
+
 
             /*buttonDel.setOnClickListener(new Button.OnClickListener(){
                 @Override
@@ -129,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
 
         public void reloadData() {
             todoList.clear();
-            todoList.addAll(store.selectAll());
+            todoList.addAll(store.selectAll(this.ed.getText().toString()));
             adapter.notifyDataSetChanged();
         }
 

@@ -58,19 +58,18 @@ public class TodoAdapter extends BaseAdapter {
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.todoItemCheckBox);
             holder.titleView = (TextView) convertView.findViewById(R.id.todoItemTitle);
             holder.contentView = (TextView) convertView.findViewById(R.id.todoItemContent);
-
-            holder.checkbox.setOnClickListener(new CheckBox.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    todo.setChecked(!todo.isChecked());
-                    listener.onClick(todo);
-                }
-            });
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        holder.checkbox.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                todo.setChecked(!todo.isChecked());
+                listener.onClick(todo);
+            }
+        });
 
         holder.checkbox.setChecked(todo.isChecked());
         holder.titleView.setText(todo.getLabel());

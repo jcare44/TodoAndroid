@@ -82,8 +82,9 @@ public class StorageHelper extends SQLiteOpenHelper {
     public List<Todo> selectAll(String filter) {
         List<Todo> todoList = new ArrayList<Todo>();
         // Select All Query
-        String selectQuery = "SELECT * FROM Todo ORDER BY checked, creation" ;
-        if(filter != "") selectQuery += " WHERE tags LIKE %" + filter + "%" ;
+        String selectQuery = "SELECT * FROM Todo" ;
+        if(filter != "") selectQuery += " WHERE label LIKE '%" + filter + "%'" ;
+        selectQuery += " ORDER BY checked, creation" ;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
