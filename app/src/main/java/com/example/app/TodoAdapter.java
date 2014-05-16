@@ -40,7 +40,7 @@ public class TodoAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return data.get(i).getId();
+        return i;
     }
 
     static class ViewHolder {
