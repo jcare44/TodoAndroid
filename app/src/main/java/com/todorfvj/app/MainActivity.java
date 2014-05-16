@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +22,12 @@ import com.crashlytics.android.Crashlytics;
 import com.todorfvj.model.StorageHelper;
 import com.todorfvj.model.Todo;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -65,6 +74,8 @@ public class MainActivity extends ActionBarActivity {
         TodoAdapter adapter;
         StorageHelper store;
 
+        EditText ed ;
+
         public PlaceholderFragment() {
         }
 
@@ -75,22 +86,32 @@ public class MainActivity extends ActionBarActivity {
             store = new StorageHelper(this.getActivity());
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-            final TextView txt = (TextView)rootView.findViewById(R.id.textView1);
             final EditText ed = (EditText)rootView.findViewById(R.id.editText);
+            this.ed = ed ;
             Button buttonAdd = (Button)rootView.findViewById(R.id.buttonAdd);
 
             ListView lst = (ListView)rootView.findViewById(R.id.listeView);
 
-            todoList = store.getAll();
+            todoList = store.selectAll();
 
             adapter = new TodoAdapter(
                     this.getActivity(),
                     todoList);
 
-            adapter.setOnCheckboxChange(new TodoAdapter.OnCheckboxClick(){
+            adapter.setOnCheckboxChange(new TodoAdapter.OnCheckboxClickListener(){
                 @Override
                 public void onClick(Todo todo) {
-                    store.updateTodo(todo);
+                    store.update(todo);
+                    reloadData() ;
+                }
+            });
+
+            adapter.setOnSwipe(new TodoAdapter.OnSwipeListener() {
+                @Override
+                public void onSwipe(Todo todo) {
+                    Log.d("sdf", todo.getLabel());
+                    store.delete(todo);
+                    reloadData();
                 }
             });
 
@@ -99,31 +120,31 @@ public class MainActivity extends ActionBarActivity {
             buttonAdd.setOnClickListener(new Button.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    String val = ed.getText().toString();
-                    store.addTodo(val,"");
-                    ed.setText(new String());
-
-                    reloadData();
+                    if(ed.getText().length()>0)
+                    {
+                        Todo todo = new Todo(ed.getText().toString(), "", false, new Date(), "") ;
+                        store.insert(todo);
+                        ed.setText("");
+                        reloadData();
+                    }
                 }
             });
 
-            /*buttonDel.setOnClickListener(new Button.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    String str = store.
-                    Log.d("remove",str);
-
-                    adapter.remove(str);
-                    adapter.notifyDataSetChanged();
+            TextWatcher tw = new TextWatcher() {
+                public void afterTextChanged(Editable s){}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+                public void onTextChanged (CharSequence s, int start, int before,int count) {
+                    reloadData();
                 }
-            });*/
+            };
 
+            ed.addTextChangedListener(tw);
             return rootView;
         }
 
         public void reloadData() {
             todoList.clear();
-            todoList.addAll(store.getAll());
+            todoList.addAll(store.selectAll(this.ed.getText().toString()));
             adapter.notifyDataSetChanged();
         }
 
