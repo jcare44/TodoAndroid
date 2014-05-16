@@ -77,18 +77,20 @@ public class StorageHelper extends SQLiteOpenHelper {
 
     }
 
+    public List<Todo> selectAll(){ return(this.selectAll("")) ; }
 
-    public List<Todo> selectAll() {
+    public List<Todo> selectAll(String filter) {
         List<Todo> todoList = new ArrayList<Todo>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM Todo";
+        String selectQuery = "SELECT * FROM Todo" ;
+        if(filter != "") selectQuery += " WHERE label LIKE '%" + filter + "%'" ;
+        selectQuery += " ORDER BY checked, creation" ;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
-            do {
-                todoList.add(this.fromCursor(cursor));
+            do { todoList.add(this.fromCursor(cursor));
             } while (cursor.moveToNext());
         }
 

@@ -1,6 +1,7 @@
 package com.todorfvj.listener;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -22,11 +23,21 @@ public abstract class OnSwipeTouchListener implements OnTouchListener {
 
         @Override
         public boolean onDown(MotionEvent e) {
+            Log.d("sdf-onDown",e.toString());
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            Log.d("sdf-onUp",e.toString());
+            onClick();
             return true;
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            Log.d("sdf-fly",e1.toString());
+            Log.d("sdf-fly",e2.toString());
             boolean result = false;
             try {
                 float diffY = e2.getY() - e1.getY();
@@ -65,5 +76,8 @@ public abstract class OnSwipeTouchListener implements OnTouchListener {
     }
 
     public void onSwipeBottom() {
+    }
+
+    public void onClick(){
     }
 }
