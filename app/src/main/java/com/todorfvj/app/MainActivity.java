@@ -1,33 +1,24 @@
-package com.example.app;
+package com.todorfvj.app;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.example.model.StorageHelper;
-import com.example.model.Todo;
-import com.example.service.TaskService;
+import com.todorfvj.model.StorageHelper;
+import com.todorfvj.model.Todo;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -87,7 +78,6 @@ public class MainActivity extends ActionBarActivity {
             final TextView txt = (TextView)rootView.findViewById(R.id.textView1);
             final EditText ed = (EditText)rootView.findViewById(R.id.editText);
             Button buttonAdd = (Button)rootView.findViewById(R.id.buttonAdd);
-            Button buttonDel = (Button)rootView.findViewById(R.id.buttonDel);
 
             ListView lst = (ListView)rootView.findViewById(R.id.listeView);
 
@@ -96,6 +86,14 @@ public class MainActivity extends ActionBarActivity {
             adapter = new TodoAdapter(
                     this.getActivity(),
                     todoList);
+
+            adapter.setOnCheckboxChange(new TodoAdapter.OnCheckboxClick(){
+                @Override
+                public void onClick(Todo todo) {
+                    store.updateTodo(todo);
+                }
+            });
+
             lst.setAdapter(adapter);
 
             buttonAdd.setOnClickListener(new Button.OnClickListener(){
@@ -106,14 +104,6 @@ public class MainActivity extends ActionBarActivity {
                     ed.setText(new String());
 
                     reloadData();
-                }
-            });
-
-            adapter.setOnCheckboxChange(new TodoAdapter.OnCheckboxChange(){
-                @Override
-                public void onClick(Todo todo,boolean b) {
-                    todo.setChecked(b);
-                    store.updateTodo(todo);
                 }
             });
 

@@ -1,4 +1,4 @@
-package com.example.service;
+package com.todorfvj.service;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
