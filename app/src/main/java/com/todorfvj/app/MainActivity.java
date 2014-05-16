@@ -18,7 +18,12 @@ import com.crashlytics.android.Crashlytics;
 import com.todorfvj.model.StorageHelper;
 import com.todorfvj.model.Todo;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -81,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
 
             ListView lst = (ListView)rootView.findViewById(R.id.listeView);
 
-            todoList = store.getAll();
+            todoList = store.selectAll();
 
             adapter = new TodoAdapter(
                     this.getActivity(),
@@ -90,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
             adapter.setOnCheckboxChange(new TodoAdapter.OnCheckboxClick(){
                 @Override
                 public void onClick(Todo todo) {
-                    store.updateTodo(todo);
+                    store.update(todo);
                 }
             });
 
@@ -100,9 +105,10 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     String val = ed.getText().toString();
-                    store.addTodo(val,"");
-                    ed.setText(new String());
-
+                    Todo todo = new Todo(val, "", false, new Date(), "") ;
+                    Logger.getAnonymousLogger().warning(todo.toString());
+                    store.insert(todo);
+                    ed.setText("");
                     reloadData();
                 }
             });
@@ -123,7 +129,7 @@ public class MainActivity extends ActionBarActivity {
 
         public void reloadData() {
             todoList.clear();
-            todoList.addAll(store.getAll());
+            todoList.addAll(store.selectAll());
             adapter.notifyDataSetChanged();
         }
 
