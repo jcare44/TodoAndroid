@@ -68,7 +68,7 @@ public class TodoAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.checkbox.setOnClickListener(new CheckBox.OnClickListener() {
+        holder.container.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View view) {
                 todo.setChecked(!todo.isChecked());
