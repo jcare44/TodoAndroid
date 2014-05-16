@@ -1,4 +1,4 @@
-package com.example.model;
+package com.todorfvj.model;
 
 import android.util.Log;
 
