@@ -120,12 +120,13 @@ public class MainActivity extends ActionBarActivity {
             buttonAdd.setOnClickListener(new Button.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    String val = ed.getText().toString();
-                    if(val == "") return ;
-                    Todo todo = new Todo(val, "", false, new Date(), "") ;
-                    store.insert(todo);
-                    ed.setText("");
-                    reloadData();
+                    if(ed.getText().length()>0)
+                    {
+                        Todo todo = new Todo(ed.getText().toString(), "", false, new Date(), "") ;
+                        store.insert(todo);
+                        ed.setText("");
+                        reloadData();
+                    }
                 }
             });
 
