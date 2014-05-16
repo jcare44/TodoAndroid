@@ -1,11 +1,13 @@
 package com.todorfvj.app;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.todorfvj.model.Todo;
@@ -41,6 +43,7 @@ public class TodoAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
+        LinearLayout container ;
         CheckBox checkbox;
         TextView titleView;
         TextView contentView;
@@ -50,6 +53,7 @@ public class TodoAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup parent) {
         ViewHolder holder;
         final Todo todo = data.get(i);
+        final ViewGroup p = parent;
 
         if(convertView == null) {
             LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,6 +62,7 @@ public class TodoAdapter extends BaseAdapter {
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.todoItemCheckBox);
             holder.titleView = (TextView) convertView.findViewById(R.id.todoItemTitle);
             holder.contentView = (TextView) convertView.findViewById(R.id.todoItemContent);
+            holder.container = (LinearLayout) convertView.findViewById(R.id.todoItem) ;
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -71,6 +76,7 @@ public class TodoAdapter extends BaseAdapter {
             }
         });
 
+        holder.container.setBackgroundColor(todo.isChecked() ? Color.argb(50,18,120,0) : Color.TRANSPARENT) ;
         holder.checkbox.setChecked(todo.isChecked());
         holder.titleView.setText(todo.getLabel());
         holder.contentView.setText(todo.getContent());
