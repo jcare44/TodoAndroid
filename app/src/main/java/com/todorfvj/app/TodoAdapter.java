@@ -1,13 +1,20 @@
 package com.todorfvj.app;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.todorfvj.listener.OnSwipeTouchListener;
 import com.todorfvj.model.Todo;
 
 import java.util.List;
@@ -18,7 +25,8 @@ import java.util.List;
 public class TodoAdapter extends BaseAdapter {
     private List<Todo> data;
     private Context context;
-    private OnCheckboxClick listener;
+    private OnCheckboxClickListener onClickListener;
+    private OnSwipeListener onSwipeListener;
 
     public TodoAdapter(Context _context, List<Todo> _data) {
         context = _context;
@@ -41,6 +49,7 @@ public class TodoAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
+        LinearLayout container;
         CheckBox checkbox;
         TextView titleView;
         TextView contentView;
@@ -55,6 +64,7 @@ public class TodoAdapter extends BaseAdapter {
             LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.todo_item, parent, false);
             holder = new ViewHolder();
+            holder.container = (LinearLayout) convertView.findViewById(R.id.todoItem);
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.todoItemCheckBox);
             holder.titleView = (TextView) convertView.findViewById(R.id.todoItemTitle);
             holder.contentView = (TextView) convertView.findViewById(R.id.todoItemContent);
@@ -63,7 +73,7 @@ public class TodoAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     todo.setChecked(!todo.isChecked());
-                    listener.onClick(todo);
+                    onClickListener.onClick(todo);
                 }
             });
 
@@ -72,17 +82,83 @@ public class TodoAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+            /*Le onTouch ne fonctionne pas correctement si mis juste sur le container
+            * il est donc placé sur les deux autrs éléments textes contenus*/
+        holder.container.setOnTouchListener(new OnSwipeTouchListener(context) {
+            public void onSwipeRight() {
+                Log.d("sdf","right");
+                onSwipeListener.onSwipe(todo);
+            }
+            public void onSwipeLeft() {
+                Log.d("sdf","left");
+                onSwipeListener.onSwipe(todo);
+            }
+
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
+
+        holder.titleView.setOnTouchListener(new OnSwipeTouchListener(context) {
+            public void onSwipeRight() {
+                Log.d("sdf","right");
+                onSwipeListener.onSwipe(todo);
+            }
+            public void onSwipeLeft() {
+                Log.d("sdf","left");
+                onSwipeListener.onSwipe(todo);
+            }
+
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
+
+        holder.contentView.setOnTouchListener(new OnSwipeTouchListener(context) {
+            public void onSwipeRight() {
+                Log.d("sdf","right");
+                onSwipeListener.onSwipe(todo);
+            }
+            public void onSwipeLeft() {
+                Log.d("sdf","left");
+                onSwipeListener.onSwipe(todo);
+            }
+
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
+
         holder.checkbox.setChecked(todo.isChecked());
         holder.titleView.setText(todo.getLabel());
         holder.contentView.setText(todo.getContent());
         return convertView;
     }
 
-    interface OnCheckboxClick{
+    interface OnCheckboxClickListener{
         public void onClick(Todo todo);
     }
 
-    public void setOnCheckboxChange(OnCheckboxClick _listener){
-        this.listener = _listener;
+    /**
+     * Listener to be attached to each checkbox
+     *
+     * @param _listener
+     */
+    public void setOnCheckboxChange(OnCheckboxClickListener _listener){
+        this.onClickListener = _listener;
+    }
+
+    interface OnSwipeListener{
+        public void onSwipe(Todo todo);
+    }
+
+    /**
+     * Listener to be attached to each row
+     * Do not work so well
+     *
+     * @param _listener
+     */
+    public void setOnSwipe(OnSwipeListener _listener){
+        this.onSwipeListener = _listener;
     }
 }
