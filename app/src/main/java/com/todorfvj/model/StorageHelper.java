@@ -7,6 +7,10 @@ package com.todorfvj.model;
         import android.database.sqlite.SQLiteOpenHelper;
         import android.util.Log;
 
+        import org.joda.time.DateTime;
+        import org.joda.time.format.DateTimeFormatter;
+        import org.joda.time.format.ISODateTimeFormat;
+
         import java.sql.Date;
         import java.sql.Timestamp;
         import java.util.ArrayList;
@@ -98,12 +102,14 @@ public class StorageHelper extends SQLiteOpenHelper {
     }
 
     private ContentValues getContentValues(Todo todo){
+        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
         ContentValues values = new ContentValues();
         values.put("id", todo.getId());
         values.put("label", todo.getLabel());
         values.put("content", todo.getContent());
         values.put("checked", todo.isChecked() ? 1 : 0);
-        values.put("creation", todo.getCreation().getTime());
+        values.put("creation",fmt.print(todo.getCreation()));
+        values.put("reminder",fmt.print(todo.getReminder()));
         values.put("tags", todo.getTags());
         values.put("deleted", todo.isDeteled() ? 1 : 0);
         return(values) ;
@@ -111,14 +117,15 @@ public class StorageHelper extends SQLiteOpenHelper {
 
     private Todo fromCursor(Cursor cursor){
 
-
         Todo todo = new Todo(
-                cursor.getString(cursor.getColumnIndex("id")),
-                cursor.getString(cursor.getColumnIndex("label")),
-                cursor.getString(cursor.getColumnIndex("content")),
-                (cursor.getInt(cursor.getColumnIndex("checked")) == 1) ? true : false,
-                new Timestamp(Long.parseLong(cursor.getString(cursor.getColumnIndex("creation")))),
-                cursor.getString(cursor.getColumnIndex("tags"))
+            cursor.getString(cursor.getColumnIndex("id")),
+            cursor.getString(cursor.getColumnIndex("label")),
+            cursor.getString(cursor.getColumnIndex("content")),
+            (cursor.getInt(cursor.getColumnIndex("checked")) == 1) ? true : false,
+            cursor.getString(cursor.getColumnIndex("tags")),
+            new DateTime(cursor.getString(cursor.getColumnIndex("reminder"))),
+            (cursor.getInt(cursor.getColumnIndex("deleted")) == 1) ? true : false,
+            new DateTime(cursor.getString(cursor.getColumnIndex("creation")))
         );
 
         return todo;
