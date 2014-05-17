@@ -1,6 +1,13 @@
 package com.todorfvj.app;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -12,9 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import com.todorfvj.listener.AlarmReceiver;
 import com.todorfvj.model.StorageHelper;
 import com.todorfvj.model.Todo;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class EditActivity extends ActionBarActivity {
@@ -72,6 +81,16 @@ public class EditActivity extends ActionBarActivity {
             store = new StorageHelper(this.getActivity());
             Bundle b =  act.getIntent().getExtras();
             todo = store.select(b.getString("todoId"));
+
+            PendingIntent mAlarmSender;
+            mAlarmSender = PendingIntent.getBroadcast(act, 0, new Intent(act.getBaseContext(), AlarmReceiver.class).putExtras(b), 0);
+
+            AlarmManager am = (AlarmManager)act.getSystemService(ALARM_SERVICE);
+            Calendar calendar = Calendar.getInstance();
+            //calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.add(Calendar.SECOND, 10);
+            am.cancel(mAlarmSender);
+            am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),mAlarmSender);
 
             return rootView;
         }
