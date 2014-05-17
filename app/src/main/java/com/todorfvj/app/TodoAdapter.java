@@ -28,6 +28,7 @@ public class TodoAdapter extends BaseAdapter {
     private Context context;
     private OnCheckboxClickListener onClickListener;
     private OnSwipeListener onSwipeListener;
+    private OnLongPressListener onLongPressListener;
 
     public TodoAdapter(Context _context, List<Todo> _data) {
         context = _context;
@@ -93,6 +94,12 @@ public class TodoAdapter extends BaseAdapter {
                 todo.setChecked(!todo.isChecked());
                 onClickListener.onClick(todo);
             }
+            @Override
+            public void onLPress() {
+                Log.d("sdf","click");
+                todo.setChecked(!todo.isChecked());
+                onLongPressListener.onLongPress(todo);
+            }
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -112,7 +119,7 @@ public class TodoAdapter extends BaseAdapter {
     }
 
     /**
-     * Listener to be attached to each checkbox
+     * Listener to be attached to each row
      *
      * @param _listener
      */
@@ -132,5 +139,18 @@ public class TodoAdapter extends BaseAdapter {
      */
     public void setOnSwipe(OnSwipeListener _listener){
         this.onSwipeListener = _listener;
+    }
+
+    interface OnLongPressListener{
+        public void onLongPress(Todo todo);
+    }
+
+    /**
+     * Listener to be attached to each row
+     *
+     * @param _listener
+     */
+    public void setOnLongPress(OnLongPressListener _listener){
+        this.onLongPressListener = _listener;
     }
 }
