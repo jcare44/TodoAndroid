@@ -1,20 +1,32 @@
 package com.todorfvj.app;
 
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.todorfvj.app.DateTimePicker.DateTimePicker;
+import com.todorfvj.app.DateTimePicker.DateTimePickerValue;
+import com.todorfvj.app.DateTimePicker.TimePickerFragment;
 import com.todorfvj.model.StorageHelper;
 import com.todorfvj.model.Todo;
 
+import org.joda.time.DateTime;
+
+import java.util.Date;
 import java.util.List;
 
 public class EditActivity extends ActionBarActivity {
@@ -71,10 +83,55 @@ public class EditActivity extends ActionBarActivity {
             final Activity act = this.getActivity();
             store = new StorageHelper(this.getActivity());
             Bundle b =  act.getIntent().getExtras();
-            todo = store.select(b.getString("todoId"));
+
+            final StorageHelper store = new StorageHelper(this.getActivity());
+
+            final Todo todo = store.select(b.getString("todoId"));
+            final EditText label = (EditText)rootView.findViewById(R.id.EditText_label) ;
+            final EditText content = (EditText)rootView.findViewById(R.id.EditText_content) ;
+            final EditText tags = (EditText)rootView.findViewById(R.id.EditText_tags) ;
+            final Button changeReminder = (Button)rootView.findViewById(R.id.Button_changeReminder) ;
+            final Button save = (Button)rootView.findViewById(R.id.Button_save) ;
+            final TextView reminder = (TextView)rootView.findViewById(R.id.TextView_reminder) ;
+
+            label.setText(todo.getLabel());
+            content.setText(todo.getContent());
+            reminder.setText(todo.getReminder().toString()) ;
+            tags.setText(todo.getTags());
+
+            save.setOnClickListener(new Button.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    todo.setLabel(label.getText().toString());
+                    todo.setContent(content.getText().toString());
+                    todo.setTags(tags.getText().toString());
+                    store.update(todo) ;
+                }
+            });
+
+            changeReminder.setOnClickListener(new Button.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    DateTimePicker dtp = new DateTimePicker(getActivity()) ;
+                    dtp.onDateTimeSet(new DateTimePickerValue(){
+                        public void onSet(DateTime d){
+                            todo.setReminder(d);
+                            reminder.setText(d.toString());
+                        }
+                    }) ;
+                    dtp.show() ;
+                }
+            });
+
+
 
             return rootView;
         }
+
+        public void save(){
+
+        }
+
     }
 
 }

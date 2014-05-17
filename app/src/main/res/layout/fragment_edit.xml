@@ -34,9 +34,7 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/EditText_label"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:id="@+id/EditText_label"/>
 
         </LinearLayout>
 
@@ -50,19 +48,14 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/TextView_content"
-                android:id="@+id/TextView_content"
-                android:layout_below="@+id/textView"
-                android:layout_toRightOf="@+id/button" />
+                android:id="@+id/TextView_content"/>
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
-                android:id="@+id/EditText_content"
-                android:layout_below="@+id/editText"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:id="@+id/EditText_content" />
 
         </LinearLayout>
 
@@ -78,20 +71,20 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/TextView_reminder"
-                android:id="@+id/TextView_reminder"
-                android:layout_below="@+id/textView2"
-                android:layout_alignRight="@+id/EditText_label"
-                android:layout_alignEnd="@+id/EditText_label" />
+                android:id="@+id/TextView_reminder" />
 
-            <EditText
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="date"
-                android:ems="10"
-                android:id="@+id/EditText_reminder"
-                android:layout_below="@+id/editText2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/TextView_reminder"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Button_changeReminder"
+                android:id="@+id/Button_changeReminder"/>
 
         </LinearLayout>
 
@@ -105,18 +98,13 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/TextView_tags"
-                android:id="@+id/TextView_tags"
-                android:layout_below="@+id/textView3"
-                android:layout_centerHorizontal="true" />
+                android:id="@+id/TextView_tags" />
 
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText4"
-                    android:layout_below="@+id/editText3"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:id="@+id/EditText_tags" />
 
         </LinearLayout>
 
@@ -125,10 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_save_text"
-            android:id="@+id/button"
-            android:layout_below="@+id/EditText_tags"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:id="@+id/Button_save"/>
 
     </LinearLayout>
 

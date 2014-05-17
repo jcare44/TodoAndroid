@@ -16,5 +16,5 @@
     <string name="TextView_content">Description</string>
     <string name="TextView_reminder">Reminder</string>
     <string name="TextView_tags">Tags</string>
-
+    <string name="Button_changeReminder">Remind me</string>
 </resources>

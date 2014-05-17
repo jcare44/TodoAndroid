@@ -2,6 +2,8 @@ package com.todorfvj.model;
 
 import android.util.Log;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -13,11 +15,12 @@ public class Todo {
     private boolean checked;
     private String label;
     private String content;
-    private Date creation ;
+    private DateTime creation ;
     private String labels ;
+    private DateTime reminder ;
     private boolean deleted;
 
-    public Todo(String _label,String _content,boolean _checked, Date _creation, String _tags){
+    public Todo(String _label,String _content,boolean _checked, DateTime _creation, String _tags){
         this.id = UUID.randomUUID().toString();
         this.label = _label;
         this.content = _content;
@@ -27,8 +30,8 @@ public class Todo {
         this.deleted = false ;
     }
 
-   public Todo(String _id,String _label,String _content, boolean _checked, Date _creation, String _tags){
-       this(_label,_content,_checked,_creation,_tags);
+   public Todo(String _id,String _label,String _content, boolean _checked, String _tags){
+       this(_label,_content,_checked, new DateTime(),_tags);
        this.id = _id;
     }
 
@@ -58,8 +61,11 @@ public class Todo {
         this.content = content;
     }
 
-    public Date getCreation() { return creation; }
-    public void setCreation(Date creation) { this.creation = creation; }
+    public DateTime getCreation() { return creation; }
+    public void setCreation(DateTime creation) { this.creation = creation; }
+
+    public DateTime getReminder() { return reminder; }
+    public void setReminder(DateTime reminder) { this.reminder = reminder; }
 
     public String getTags() { return labels; }
     public void setTags(String labels) { this.labels = labels; }
