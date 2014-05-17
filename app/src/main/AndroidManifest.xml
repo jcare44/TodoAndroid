@@ -23,6 +23,8 @@
             android:label="@string/title_activity_test" >
         </activity>
 
+        <receiver android:name="com.todorfvj.listener.AlarmReceiver" />
+
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="f5de21d3160792ac1d593414f01bde34e30bc6e2" />

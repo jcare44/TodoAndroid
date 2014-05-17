@@ -23,6 +23,10 @@ public class Todo {
         this.creation = creation;
     }
 
+    public Todo(String label) {
+        this(UUID.randomUUID().toString(), label,"", false, "", null, false, new DateTime()) ;
+    }
+
     public Todo(String label, String content, String tags, DateTime reminder) {
         this(UUID.randomUUID().toString(), label, content, false, tags, reminder, false, new DateTime()) ;
     }

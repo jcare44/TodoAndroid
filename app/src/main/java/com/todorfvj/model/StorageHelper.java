@@ -1,6 +1,6 @@
 package com.todorfvj.model;
 
-        import android.content.ContentValues;
+import android.content.ContentValues;
         import android.content.Context;
         import android.database.Cursor;
         import android.database.sqlite.SQLiteDatabase;
@@ -24,8 +24,8 @@ public class StorageHelper extends SQLiteOpenHelper {
     private static final String SQL_INITIAL =
             "CREATE TABLE todo (id TEXT PRIMARY KEY, label TEXT, content TEXT, checked INT, deleted INT, creation TEXT, tags TEXT)";
 
-    /*private static final String SQL_INITIAL_TO_2 =
-            "ALTER TABLE todo ADD COLUMN  ; ALTER TABLE todo ADD COLUMN "; */
+    private static final String SQL_INITIAL_TO_2 =
+            "ALTER TABLE todo ADD COLUMN reminder";
 
     /*private static final String SQL_2_TO_INITIAL =
             "ALTER TABLE todo DROP COLUMN date, ALTER TABLE todo DROP COLUMN tags";*/
@@ -35,13 +35,16 @@ public class StorageHelper extends SQLiteOpenHelper {
     }
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_INITIAL);
-        //this.onUpgrade(db, 1, DATABASE_VERSION);
+        this.onUpgrade(db, 1, DATABASE_VERSION);
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         int currentVersion = oldVersion;
         Logger.getAnonymousLogger().warning("Upgrading from " + oldVersion + " to " + newVersion);
+        Log.d("sdf","SQLonUpgrade");
         if(currentVersion == 1 && newVersion > currentVersion) {
-            //db.execSQL(SQL_INITIAL_TO_2); currentVersion = 2;
+            db.execSQL(SQL_INITIAL_TO_2);
+            currentVersion = 2;
+            Log.d("sdf","SQL up to 2");
         }
         /*if(currentVersion == 1 && newVersion > currentVersion) {
             db.execSQL(SQL_UP_2); currentVersion = 2;
@@ -70,7 +73,7 @@ public class StorageHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query("Todo",                  //table
-                new String[] { "id", "label", "content", "checked", "creation", "tags", "deleted" }, // columns
+                new String[] { "id", "label", "content", "checked", "creation", "tags", "deleted", "reminder" }, // columns
                 "id=?",                                         // WHERE clause
                 new String[] { id },            // WHERE arguments
                 null, null, null, null);
@@ -132,6 +135,7 @@ public class StorageHelper extends SQLiteOpenHelper {
             (cursor.getInt(cursor.getColumnIndex("deleted")) == 1) ? true : false,
             new DateTime(cursor.getString(cursor.getColumnIndex("creation")))
         );
+        cursor.getString(cursor.getColumnIndex("reminder"));
 
         return todo;
     }
