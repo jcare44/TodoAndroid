@@ -1,7 +1,6 @@
 package com.todorfvj.app;
 
 import android.app.Activity;
-<<<<<<< HEAD
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,10 +8,8 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-=======
 import android.app.DialogFragment;
 import android.app.FragmentManager;
->>>>>>> 3dacdf31fd676f31b9d0c88c268b91929ec9b791
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
