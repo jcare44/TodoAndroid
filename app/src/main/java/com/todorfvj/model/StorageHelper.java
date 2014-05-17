@@ -108,8 +108,13 @@ public class StorageHelper extends SQLiteOpenHelper {
         values.put("label", todo.getLabel());
         values.put("content", todo.getContent());
         values.put("checked", todo.isChecked() ? 1 : 0);
-        values.put("creation",fmt.print(todo.getCreation()));
-        values.put("reminder",fmt.print(todo.getReminder()));
+
+        if(todo.getCreation() == null) values.putNull("creation");
+        else values.put("creation", fmt.print(todo.getCreation()));
+
+        if(todo.getReminder() == null) values.putNull("reminder");
+        else values.put("reminder",fmt.print(todo.getReminder()));
+
         values.put("tags", todo.getTags());
         values.put("deleted", todo.isDeteled() ? 1 : 0);
         return(values) ;
