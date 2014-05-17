@@ -1,6 +1,7 @@
 package com.todorfvj.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -112,6 +113,18 @@ public class MainActivity extends ActionBarActivity {
                     Log.d("sdf", todo.getLabel());
                     store.delete(todo);
                     reloadData();
+                }
+            });
+
+            adapter.setOnLongPress(new TodoAdapter.OnLongPressListener() {
+                @Override
+                public void onLongPress(Todo todo) {
+                    Intent intent = new Intent(act, EditActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("todoId", todo.getId());
+                    intent.putExtras(b); //Put your id to your next Intent
+                    startActivity(intent);
+                    act.finish();
                 }
             });
 

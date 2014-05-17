@@ -1,5 +1,6 @@
 package com.todorfvj.app;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+
+import com.todorfvj.model.StorageHelper;
+import com.todorfvj.model.Todo;
+
+import java.util.List;
 
 public class EditActivity extends ActionBarActivity {
 
@@ -50,6 +56,9 @@ public class EditActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+        Todo todo;
+        StorageHelper store;
+
 
         public PlaceholderFragment() {
         }
@@ -58,6 +67,12 @@ public class EditActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_edit, container, false);
+
+            final Activity act = this.getActivity();
+            store = new StorageHelper(this.getActivity());
+            Bundle b =  act.getIntent().getExtras();
+            todo = store.select(b.getString("todoId"));
+
             return rootView;
         }
     }

@@ -35,6 +35,12 @@ public abstract class OnSwipeTouchListener implements OnTouchListener {
         }
 
         @Override
+        public void onLongPress(MotionEvent e) {
+            Log.d("sdf-onLongPress",e.toString());
+            onLPress();
+        }
+
+        @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             Log.d("sdf-fly",e1.toString());
             Log.d("sdf-fly",e2.toString());
@@ -79,5 +85,8 @@ public abstract class OnSwipeTouchListener implements OnTouchListener {
     }
 
     public void onClick(){
+    }
+
+    public void onLPress(){
     }
 }
