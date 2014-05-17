@@ -135,10 +135,10 @@ public class MainActivity extends ActionBarActivity {
                 public void onClick(View v) {
                     if(ed.getText().length()>0)
                     {
-                        Todo todo = new Todo(ed.getText().toString(), "", false, new Date(), "") ;
+                        /*Todo todo = new Todo(ed.getText().toString(), "", "", false) ;
                         store.insert(todo);
                         ed.setText("");
-                        reloadData();
+                        reloadData();*/
                     }
                 }
             });
