@@ -96,7 +96,7 @@ public class EditActivity extends ActionBarActivity {
 
             final Activity act = this.getActivity();
             store = new StorageHelper(this.getActivity());
-            Bundle b =  act.getIntent().getExtras();
+            final Bundle b =  act.getIntent().getExtras();
 
             final StorageHelper store = new StorageHelper(this.getActivity());
 
@@ -122,7 +122,32 @@ public class EditActivity extends ActionBarActivity {
                     todo.setLabel(label.getText().toString());
                     todo.setContent(content.getText().toString());
                     todo.setTags(tags.getText().toString());
+
+                        //Setting up reminder
+                    if(todo.getReminder() != null)
+                    {
+                        PendingIntent mAlarmSender;
+                        mAlarmSender = PendingIntent.getBroadcast(act, 0, new Intent(act.getBaseContext(), AlarmReceiver.class).putExtras(b), 0);
+
+                        AlarmManager am = (AlarmManager)act.getSystemService(ALARM_SERVICE);
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(
+                                todo.getReminder().getYear(),
+                                todo.getReminder().getMonthOfYear(),
+                                todo.getReminder().getDayOfMonth(),
+                                todo.getReminder().getHourOfDay(),
+                                todo.getReminder().getMinuteOfHour(),
+                                todo.getReminder().getSecondOfMinute());
+                        calendar.add(Calendar.SECOND, 10);
+                        am.cancel(mAlarmSender);
+                        am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),mAlarmSender);
+                    }
+
                     store.update(todo) ;
+                        //redirecting to list
+                    Intent intent = new Intent(act, MainActivity.class);
+                    startActivity(intent);
+                    act.finish();
                 }
             });
 
@@ -140,18 +165,6 @@ public class EditActivity extends ActionBarActivity {
                     dtp.show() ;
                 }
             });
-
-
-
-            PendingIntent mAlarmSender;
-            mAlarmSender = PendingIntent.getBroadcast(act, 0, new Intent(act.getBaseContext(), AlarmReceiver.class).putExtras(b), 0);
-
-            AlarmManager am = (AlarmManager)act.getSystemService(ALARM_SERVICE);
-            Calendar calendar = Calendar.getInstance();
-            //calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.add(Calendar.SECOND, 10);
-            am.cancel(mAlarmSender);
-            am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),mAlarmSender);
 
             return rootView;
         }
