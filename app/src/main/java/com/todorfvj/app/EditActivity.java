@@ -37,6 +37,8 @@ import com.todorfvj.model.StorageHelper;
 import com.todorfvj.model.Todo;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Date;
 import java.util.List;
@@ -106,9 +108,12 @@ public class EditActivity extends ActionBarActivity {
             final Button save = (Button)rootView.findViewById(R.id.Button_save) ;
             final TextView reminder = (TextView)rootView.findViewById(R.id.TextView_reminder) ;
 
+            final DateTimeFormatter dft = DateTimeFormat.shortDateTime() ;
+
             label.setText(todo.getLabel());
             content.setText(todo.getContent());
-            reminder.setText(todo.getReminder().toString()) ;
+            if(todo.getReminder() == null) reminder.setText("Aucun") ;
+            else reminder.setText(dft.print(todo.getReminder())) ;
             tags.setText(todo.getTags());
 
             save.setOnClickListener(new Button.OnClickListener(){
@@ -128,7 +133,8 @@ public class EditActivity extends ActionBarActivity {
                     dtp.onDateTimeSet(new DateTimePickerValue(){
                         public void onSet(DateTime d){
                             todo.setReminder(d);
-                            reminder.setText(d.toString());
+                            if(todo.getReminder() == null) reminder.setText("Aucun") ;
+                            else reminder.setText(dft.print(todo.getReminder())) ;
                         }
                     }) ;
                     dtp.show() ;
