@@ -80,6 +80,13 @@ public class MainActivity extends ActionBarActivity {
         public PlaceholderFragment() {
         }
 
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            reloadData();
+        }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
@@ -124,7 +131,6 @@ public class MainActivity extends ActionBarActivity {
                     b.putString("todoId", todo.getId());
                     intent.putExtras(b); //Put your id to your next Intent
                     startActivity(intent);
-                    act.finish();
                 }
             });
 

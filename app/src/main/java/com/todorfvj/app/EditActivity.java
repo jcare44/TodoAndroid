@@ -139,9 +139,7 @@ public class EditActivity extends ActionBarActivity {
                     }
 
                     store.update(todo) ;
-                        //redirecting to list
-                    Intent intent = new Intent(act, MainActivity.class);
-                    startActivity(intent);
+                        //go back to list
                     act.finish();
                 }
             });
