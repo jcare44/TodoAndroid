@@ -119,7 +119,7 @@ public class EditActivity extends ActionBarActivity {
                     todo.setTags(tags.getText().toString());
 
                         //Setting up reminder
-                    if(todo.getReminder() != null)
+                    if(todo.getReminder() != null && todo.getReminder().isAfterNow())
                     {
                         PendingIntent mAlarmSender;
                         mAlarmSender = PendingIntent.getBroadcast(act, 0, new Intent(act.getBaseContext(), AlarmReceiver.class).putExtras(b), 0);
