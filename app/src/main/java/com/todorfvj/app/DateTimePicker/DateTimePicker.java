@@ -29,7 +29,7 @@ public class DateTimePicker {
     }
 
     public void dateSet(int year, int month, int day){
-        this.year = year ; this.month = month ; this.day = day ;
+        this.year = year ; this.month = month+1 ; this.day = day ;
         DialogFragment newFragment = new TimePickerFragment(this);
         newFragment.show(act.getFragmentManager(), "timePicker");
     }

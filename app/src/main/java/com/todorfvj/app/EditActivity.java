@@ -98,7 +98,7 @@ public class EditActivity extends ActionBarActivity {
 
             final StorageHelper store = new StorageHelper(this.getActivity());
 
-            final Todo todo = store.select(b.getString("todoId"));
+            Todo todo = store.select(b.getString("todoId"));
             final EditText label = (EditText)rootView.findViewById(R.id.EditText_label) ;
             final EditText content = (EditText)rootView.findViewById(R.id.EditText_content) ;
             final EditText tags = (EditText)rootView.findViewById(R.id.EditText_tags) ;
@@ -114,6 +114,7 @@ public class EditActivity extends ActionBarActivity {
             save.setOnClickListener(new Button.OnClickListener(){
                 @Override
                 public void onClick(View v) {
+                    Todo todo = store.select(b.getString("todoId"));
                     todo.setLabel(label.getText().toString());
                     todo.setContent(content.getText().toString());
                     todo.setTags(tags.getText().toString());
@@ -128,7 +129,7 @@ public class EditActivity extends ActionBarActivity {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(
                                 todo.getReminder().getYear(),
-                                todo.getReminder().getMonthOfYear(),
+                                todo.getReminder().getMonthOfYear()-1, //0-11
                                 todo.getReminder().getDayOfMonth(),
                                 todo.getReminder().getHourOfDay(),
                                 todo.getReminder().getMinuteOfHour(),
@@ -150,7 +151,10 @@ public class EditActivity extends ActionBarActivity {
                     DateTimePicker dtp = new DateTimePicker(getActivity()) ;
                     dtp.onDateTimeSet(new DateTimePickerValue(){
                         public void onSet(DateTime d){
+                            Todo todo = store.select(b.getString("todoId"));
                             todo.setReminder(d);
+                            store.update(todo) ;
+
                             reminder.setText(d.toString());
                         }
                     }) ;
