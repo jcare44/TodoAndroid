@@ -71,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/TextView_reminder"
-                android:id="@+id/TextView_reminder" />
+                android:id="@+id/TextView_reminderLabel"
+                android:paddingRight="5px"/>
 
             <TextView
                 android:layout_width="wrap_content"

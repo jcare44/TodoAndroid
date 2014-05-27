@@ -1,6 +1,7 @@
 package com.todorfvj.app;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.GestureDetector;
@@ -70,11 +71,20 @@ public class TodoAdapter extends BaseAdapter {
             holder.container = (LinearLayout) convertView.findViewById(R.id.todoItem);
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.todoItemCheckBox);
             holder.titleView = (TextView) convertView.findViewById(R.id.todoItemTitle);
+            holder.titleView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             holder.contentView = (TextView) convertView.findViewById(R.id.todoItemContent);
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
+        }
+
+        if(todo.isChecked()){
+            holder.titleView.setPaintFlags(holder.titleView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.contentView.setPaintFlags(holder.contentView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+        else{
+            holder.titleView.setPaintFlags(holder.titleView.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.contentView.setPaintFlags(holder.contentView.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
         holder.container.setOnTouchListener(new OnSwipeTouchListener(context) {
@@ -106,8 +116,6 @@ public class TodoAdapter extends BaseAdapter {
                 return gestureDetector.onTouchEvent(event);
             }
         });
-
-        holder.container.setBackgroundColor(todo.isChecked() ? Color.argb(50,18,120,0) : Color.TRANSPARENT) ;
         holder.checkbox.setChecked(todo.isChecked());
         holder.titleView.setText(todo.getLabel());
         holder.contentView.setText(todo.getContent());

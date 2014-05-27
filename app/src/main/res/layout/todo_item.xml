@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:id="@+id/todoItem">
-
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="15px"
+        android:layout_marginLeft="15px"
+        android:layout_marginRight="15px"
+        android:id="@+id/todoItem"
+        android:background="@drawable/border"
+     >
     <CheckBox
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
         android:id="@+id/todoItemCheckBox" />
-
-    <TextView
-        android:id="@+id/todoItemTitle"
-        style="android:attr/textAppearanceLarge"
-        android:layout_width="wrap_content"
+     <LinearLayout
+        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textSize="20sp" />
-
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="fill_parent" />
-
-    <TextView
-        android:id="@+id/todoItemContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textSize="15sp" />
+        android:layout_width="match_parent"
+        android:layout_margin="15px"
+        >
+        <TextView
+            android:id="@+id/todoItemTitle"
+            style="android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/todoItemContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
