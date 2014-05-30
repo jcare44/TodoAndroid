@@ -1,36 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:id="@+id/todoItem">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:id="@+id/todoItemCheckBox" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/todoItem"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:tag="todoItemBack"
+        android:id="@+id/todoItemBack">
 
-    <TextView
-        android:id="@+id/todoItemTitle"
-        style="android:attr/textAppearanceLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textSize="20sp" />
 
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="fill_parent" />
+        <!--<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button" />-->
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/todoItemContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textSize="15sp" />
-</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:tag="todoItemFront"
+        android:background="@android:color/white"
+        android:id="@+id/todoItemFront">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:clickable="false"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/todoItemCheckBox" />
+
+        <TextView
+            android:id="@+id/todoItemTitle"
+            style="android:attr/textAppearanceLarge"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="4"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_gravity="center_vertical"
+            android:textSize="20sp" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"/>
+
+        <TextView
+            android:id="@+id/todoItemContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_gravity="center_vertical"
+            android:textSize="15sp" />
+
+       <!-- <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:background="@android:drawable/ic_lock_idle_alarm"
+            android:layout_gravity="center_vertical" />-->
+    </LinearLayout>
+</FrameLayout>

@@ -2,20 +2,15 @@ package com.todorfvj.app;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.GestureDetector;
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.todorfvj.listener.OnSwipeTouchListener;
 import com.todorfvj.model.Todo;
 
 import java.util.List;
@@ -67,7 +62,7 @@ public class TodoAdapter extends BaseAdapter {
             LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.todo_item, parent, false);
             holder = new ViewHolder();
-            holder.container = (LinearLayout) convertView.findViewById(R.id.todoItem);
+            holder.container = (LinearLayout) convertView.findViewById(R.id.todoItemFront);
             holder.checkbox = (CheckBox) convertView.findViewById(R.id.todoItemCheckBox);
             holder.titleView = (TextView) convertView.findViewById(R.id.todoItemTitle);
             holder.contentView = (TextView) convertView.findViewById(R.id.todoItemContent);
@@ -77,37 +72,25 @@ public class TodoAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.container.setOnTouchListener(new OnSwipeTouchListener(context) {
+        holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSwipeRight() {
-                Log.d("sdf","right");
-                onSwipeListener.onSwipe(todo);
-            }
-            @Override
-            public void onSwipeLeft() {
-                Log.d("sdf","left");
-                onSwipeListener.onSwipe(todo);
-            }
-            @Override
-            public void onClick() {
+            public void onClick(View view) {
                 Log.d("sdf","click");
                 todo.setChecked(!todo.isChecked());
                 onClickListener.onClick(todo);
             }
-            @Override
-            public void onLPress() {
-                Log.d("sdf","click");
-                todo.setChecked(!todo.isChecked());
-                onLongPressListener.onLongPress(todo);
-            }
+        });
 
+        holder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
+            public boolean onLongClick(View view) {
+                Log.d("sdf", "Lclick");
+                onLongPressListener.onLongPress(todo);
+                return false;
             }
         });
 
-        holder.container.setBackgroundColor(todo.isChecked() ? Color.argb(50,18,120,0) : Color.TRANSPARENT) ;
+        holder.container.setBackgroundColor(todo.isChecked() ? Color.argb(255,18,120,0) : Color.WHITE) ;
         holder.checkbox.setChecked(todo.isChecked());
         holder.titleView.setText(todo.getLabel());
         holder.contentView.setText(todo.getContent());
