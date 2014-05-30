@@ -22,8 +22,6 @@ import java.util.List;
 public class TodoAdapter extends BaseAdapter {
     private List<Todo> data;
     private Context context;
-    private OnCheckboxClickListener onClickListener;
-    private OnSwipeListener onSwipeListener;
     private OnLongPressListener onLongPressListener;
 
     public TodoAdapter(Context _context, List<Todo> _data) {
@@ -95,33 +93,6 @@ public class TodoAdapter extends BaseAdapter {
         holder.titleView.setText(todo.getLabel());
         holder.contentView.setText(todo.getContent());
         return convertView;
-    }
-
-    interface OnCheckboxClickListener{
-        public void onClick(Todo todo);
-    }
-
-    /**
-     * Listener to be attached to each row
-     *
-     * @param _listener
-     */
-    public void setOnCheckboxChange(OnCheckboxClickListener _listener){
-        this.onClickListener = _listener;
-    }
-
-    interface OnSwipeListener{
-        public void onSwipe(Todo todo);
-    }
-
-    /**
-     * Listener to be attached to each row
-     * Do not work so well
-     *
-     * @param _listener
-     */
-    public void setOnSwipe(OnSwipeListener _listener){
-        this.onSwipeListener = _listener;
     }
 
     interface OnLongPressListener{

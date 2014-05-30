@@ -25,7 +25,7 @@ public class StorageHelper extends SQLiteOpenHelper {
             "CREATE TABLE todo (id TEXT PRIMARY KEY, label TEXT, content TEXT, checked INT, deleted INT, creation TEXT, tags TEXT)";
 
     private static final String SQL_INITIAL_TO_2 =
-            "ALTER TABLE todo ADD COLUMN reminder";
+            "ALTER TABLE todo ADD COLUMN reminder DEFAULT NULL";
 
     /*private static final String SQL_2_TO_INITIAL =
             "ALTER TABLE todo DROP COLUMN date, ALTER TABLE todo DROP COLUMN tags";*/
@@ -124,14 +124,13 @@ public class StorageHelper extends SQLiteOpenHelper {
     }
 
     private Todo fromCursor(Cursor cursor){
-
         Todo todo = new Todo(
             cursor.getString(cursor.getColumnIndex("id")),
             cursor.getString(cursor.getColumnIndex("label")),
             cursor.getString(cursor.getColumnIndex("content")),
             (cursor.getInt(cursor.getColumnIndex("checked")) == 1) ? true : false,
             cursor.getString(cursor.getColumnIndex("tags")),
-            new DateTime(cursor.getString(cursor.getColumnIndex("reminder"))),
+            cursor.getString(cursor.getColumnIndex("reminder")) != null ? new DateTime(cursor.getString(cursor.getColumnIndex("reminder"))) : null,
             (cursor.getInt(cursor.getColumnIndex("deleted")) == 1) ? true : false,
             new DateTime(cursor.getString(cursor.getColumnIndex("creation")))
         );

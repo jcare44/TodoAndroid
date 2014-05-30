@@ -11,6 +11,15 @@ import java.util.UUID;
  * Created by julien on 30/04/14.
  */
 public class Todo {
+    private String id;
+    private String label;
+    private String content;
+    private boolean checked;
+    private String tags ;
+    private DateTime reminder ;
+    private boolean deleted;
+    private DateTime creation ;
+
 
     public Todo(String id, String label, String content, boolean checked, String tags, DateTime reminder, boolean deleted, DateTime creation) {
         this.id = id;
@@ -30,17 +39,6 @@ public class Todo {
     public Todo(String label, String content, String tags, DateTime reminder) {
         this(UUID.randomUUID().toString(), label, content, false, tags, reminder, false, new DateTime()) ;
     }
-
-    private String id;
-    private String label;
-    private String content;
-    private boolean checked;
-    private String tags ;
-    private DateTime reminder ;
-    private boolean deleted;
-    private DateTime creation ;
-
-
 
     public String getId() {
         return id;
@@ -68,17 +66,33 @@ public class Todo {
         this.content = content;
     }
 
-    public DateTime getCreation() { return creation; }
-    public void setCreation(DateTime creation) { this.creation = creation; }
+    public DateTime getCreation() {
+        return creation;
+    }
+    public void setCreation(DateTime creation) {
+        this.creation = creation;
+    }
 
-    public DateTime getReminder() { return reminder; }
-    public void setReminder(DateTime reminder) { this.reminder = reminder; }
+    public DateTime getReminder() {
+        return reminder;
+    }
+    public void setReminder(DateTime reminder) {
+        this.reminder = reminder;
+    }
 
-    public String getTags() { return tags; }
-    public void setTags(String labels) { this.tags = labels; }
+    public String getTags() {
+        return tags;
+    }
+    public void setTags(String labels) {
+        this.tags = labels;
+    }
 
-    public boolean isDeteled() { return this.deleted; }
-    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+    public boolean isDeteled() {
+        return this.deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
 
 }
