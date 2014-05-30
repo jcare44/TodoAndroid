@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,12 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.fortysevendeg.swipelistview.SwipeListView;
+import com.fortysevendeg.swipelistview.SwipeListViewListener;
 import com.todorfvj.model.StorageHelper;
 import com.todorfvj.model.Todo;
 
@@ -77,6 +81,7 @@ public class MainActivity extends ActionBarActivity {
         List<Todo> todoList;
         TodoAdapter adapter;
         StorageHelper store;
+        SwipeListView lst;
 
         EditText ed ;
 
@@ -101,30 +106,101 @@ public class MainActivity extends ActionBarActivity {
             this.ed = ed ;
             Button buttonAdd = (Button)rootView.findViewById(R.id.buttonAdd);
 
-            ListView lst = (ListView)rootView.findViewById(R.id.listeView);
+            lst = (SwipeListView)rootView.findViewById(R.id.listeView);
 
             todoList = store.selectAll();
 
+            lst.setSwipeListViewListener(new SwipeListViewListener() {
+                @Override
+                public void onOpened(int i, boolean b) {
+                    //Log.d("sdf","opened"+i+" "+b);
+                }
+
+                @Override
+                public void onClosed(int i, boolean b) {
+                    //Log.d("sdf","closed"+i+" "+b);
+                }
+
+                @Override
+                public void onListChanged() {
+                    //Log.d("sdf","list changed");
+                }
+
+                @Override
+                public void onMove(int i, float v) {
+
+                }
+
+                @Override
+                public void onStartOpen(int i, int i2, boolean b) {
+
+                }
+
+                @Override
+                public void onStartClose(int i, boolean b) {
+
+                }
+
+                @Override
+                public void onClickFrontView(int i) {
+                    Todo todo = todoList.get(i);
+                    Log.d("sdf","click");
+                    todo.setChecked(!todo.isChecked());
+                    store.update(todo);
+                    reloadData();
+                }
+
+                @Override
+                public void onClickBackView(int i) {
+                    //Log.d("sdf","backclick");
+                }
+
+                @Override
+                public void onDismiss(int[] ints) {
+                    Log.d("sdf","dissmiss");
+                    Todo todo;
+                    for(int i=0;i<ints.length;++i)
+                    {
+                        todo = todoList.get(ints[i]);
+                        Log.d("sdf","delete "+todo.getLabel());
+                        store.delete(todo);
+                        reloadData();
+                    }
+                }
+
+                @Override
+                public int onChangeSwipeMode(int i) {
+                    return i;
+                }
+
+                @Override
+                public void onChoiceChanged(int i, boolean b) {
+
+                }
+
+                @Override
+                public void onChoiceStarted() {
+
+                }
+
+                @Override
+                public void onChoiceEnded() {
+
+                }
+
+                @Override
+                public void onFirstListItem() {
+
+                }
+
+                @Override
+                public void onLastListItem() {
+
+                }
+            });
             adapter = new TodoAdapter(
                     this.getActivity(),
                     todoList);
-
-            adapter.setOnCheckboxChange(new TodoAdapter.OnCheckboxClickListener(){
-                @Override
-                public void onClick(Todo todo) {
-                    store.update(todo);
-                    reloadData() ;
-                }
-            });
-
-            adapter.setOnSwipe(new TodoAdapter.OnSwipeListener() {
-                @Override
-                public void onSwipe(Todo todo) {
-                    Log.d("sdf", todo.getLabel());
-                    store.delete(todo);
-                    reloadData();
-                }
-            });
 
             adapter.setOnLongPress(new TodoAdapter.OnLongPressListener() {
                 @Override
@@ -168,6 +244,7 @@ public class MainActivity extends ActionBarActivity {
             todoList.clear();
             todoList.addAll(store.selectAll(this.ed.getText().toString()));
             adapter.notifyDataSetChanged();
+            lst.resetScrolling();
         }
 
     }

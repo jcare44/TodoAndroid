@@ -1,49 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/todoItem"
     >
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_height="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:tag="todoItemBack"
+        android:id="@+id/todoItemBack">
+
+
+        <!--<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button" />-->
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="todoItemFront"
         android:layout_marginBottom="15px"
         android:layout_marginLeft="15px"
         android:layout_marginRight="15px"
-        android:id="@+id/todoItem"
         android:background="@drawable/border"
-     >
-    <CheckBox
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:id="@+id/todoItemCheckBox" />
-     <LinearLayout
-        android:orientation="vertical"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_margin="15px"
-        >
-        <TextView
-            android:id="@+id/todoItemTitle"
-            style="android:attr/textAppearanceLarge"
+        android:id="@+id/todoItemFront">
+
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/todoItemContent"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/todoItemCheckBox" />
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="15sp" />
+            android:layout_width="wrap_content"
+            android:layout_weight="9"
+            android:layout_margin="15px"
+            >
+            <TextView
+                android:id="@+id/todoItemTitle"
+                style="android:attr/textAppearanceLarge"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/todoItemContent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:layout_gravity="center_vertical"
+                android:textSize="15sp" />
         </LinearLayout>
+
+       <!-- <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:background="@android:drawable/ic_lock_idle_alarm"
+            android:layout_gravity="center_vertical" />-->
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>
