@@ -18,10 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.todorfvj.app.TestActivity"
-            android:label="@string/title_activity_test" >
-        </activity>
 
         <receiver android:name="com.todorfvj.listener.AlarmReceiver" />
 
