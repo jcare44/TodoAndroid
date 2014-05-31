@@ -4,7 +4,11 @@ import android.util.Log;
 
 import org.joda.time.DateTime;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -74,8 +78,19 @@ public class Todo {
     public DateTime getReminder() { return reminder; }
     public void setReminder(DateTime reminder) { this.reminder = reminder; }
 
-    public String getTags() { return tags; }
-    public void setTags(String labels) { this.tags = labels; }
+    public String getTags(){ return(tags) ; }
+    public void setTags(String tags){ this.tags = tags ; }
+
+    public ArrayList<String> getTagList() {
+        if(tags.equals("")) return(new ArrayList<String>()) ;
+        else return(new ArrayList<String>(Arrays.asList(tags.split(";")))) ;
+    }
+    public void setTagList(ArrayList<String> tags){
+        String tagsstr = "" ;
+        for (String tag : tags) tagsstr += tag + ";" ;
+        if(tagsstr.length() > 0) tagsstr = tagsstr.substring(0, tagsstr.length() - 1) ;
+        this.tags = tagsstr ;
+    }
 
     public boolean isDeteled() { return this.deleted; }
     public void setDeleted(boolean deleted) { this.deleted = deleted; }
