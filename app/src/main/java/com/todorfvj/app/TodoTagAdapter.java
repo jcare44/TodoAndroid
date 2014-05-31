@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.todorfvj.listener.OnSwipeTouchListener;
+//import com.todorfvj.listener.OnSwipeTouchListener;
 import com.todorfvj.model.Todo;
 
 import java.util.ArrayList;

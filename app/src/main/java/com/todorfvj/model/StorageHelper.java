@@ -90,7 +90,7 @@ public class StorageHelper extends SQLiteOpenHelper {
         List<Todo> todoList = new ArrayList<Todo>();
         // Select All Query
         String selectQuery = "SELECT * FROM Todo" ;
-        if(filter != "") selectQuery += " WHERE label LIKE '%" + filter + "%'" ;
+        if(filter != "") selectQuery += " WHERE label LIKE '%" + filter + "%' OR tags like '%" + filter + "%'" ;
         selectQuery += " ORDER BY checked, creation" ;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -119,7 +119,7 @@ public class StorageHelper extends SQLiteOpenHelper {
         else values.put("reminder",fmt.print(todo.getReminder()));
 
         values.put("tags", todo.getTags());
-        values.put("deleted", todo.isDeteled() ? 1 : 0);
+        values.put("deleted", todo.isDeleted() ? 1 : 0);
         return(values) ;
     }
 

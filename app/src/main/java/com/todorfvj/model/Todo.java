@@ -84,7 +84,11 @@ public class Todo {
         this.reminder = reminder;
     }
 
+    public String getTags(){ return tags ; }
+    public void setTags(String tags){ this.tags = tags ;}
+
 	public ArrayList<String> getTagList() {
+        if(tags == null) return(new ArrayList<String>()) ;
         if(tags.equals("")) return(new ArrayList<String>()) ;
         else return(new ArrayList<String>(Arrays.asList(tags.split(";")))) ;
     }
@@ -94,6 +98,10 @@ public class Todo {
         if(tagsstr.length() > 0) tagsstr = tagsstr.substring(0, tagsstr.length() - 1) ;
         this.tags = tagsstr ;
     }
+
+    public void setDeleted(){ this.setDeleted(true) ; }
+    public void setDeleted(Boolean deleted){ this.deleted = deleted ; }
+    public Boolean isDeleted(){ return deleted ; }
 
 
 }

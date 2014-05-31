@@ -23,12 +23,14 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.todorfvj.listener.AlarmReceiver;
 import com.todorfvj.model.StorageHelper;
 import com.todorfvj.model.Todo;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import com.todorfvj.app.DateTimePicker.DateTimePicker;
 import com.todorfvj.app.DateTimePicker.DateTimePickerValue;
@@ -100,21 +102,39 @@ public class EditActivity extends ActionBarActivity {
 
             final StorageHelper store = new StorageHelper(this.getActivity());
 
-            Todo todo = store.select(b.getString("todoId"));
+            final Todo todo = store.select(b.getString("todoId"));
+            final ArrayList<String> tagslist = todo.getTagList() ;
             final EditText label = (EditText)rootView.findViewById(R.id.EditText_label) ;
             final EditText content = (EditText)rootView.findViewById(R.id.EditText_content) ;
-            final EditText tags = (EditText)rootView.findViewById(R.id.EditText_tags) ;
             final Button changeReminder = (Button)rootView.findViewById(R.id.Button_changeReminder) ;
             final Button save = (Button)rootView.findViewById(R.id.Button_save) ;
             final TextView reminder = (TextView)rootView.findViewById(R.id.TextView_reminder) ;
 
+            final ListView tags = (ListView)rootView.findViewById(R.id.ListView_tags) ;
+            final EditText EditText_addTag = (EditText)rootView.findViewById(R.id.EditText_addTag) ;
+            final Button Button_addTag = (Button)rootView.findViewById(R.id.Button_addTag) ;
+
             final DateTimeFormatter dft = DateTimeFormat.shortDateTime() ;
+            final TodoTagAdapter adapter = new TodoTagAdapter(this.getActivity(),tagslist) ;
 
             label.setText(todo.getLabel());
             content.setText(todo.getContent());
             if(todo.getReminder() == null) reminder.setText("Aucun") ;
             else reminder.setText(dft.print(todo.getReminder())) ;
-            tags.setText(todo.getTags());
+            tags.setAdapter(adapter);
+
+            Button_addTag.setOnClickListener(new Button.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    //Todo todo = store.select(b.getString("todoId"));
+                    String newTag = EditText_addTag.getText().toString() ;
+                    if(!newTag.equals("")){
+                        tagslist.add(newTag) ;
+                        adapter.notifyDataSetChanged();
+                        EditText_addTag.setText("");
+                    }
+                }
+            });
 
             save.setOnClickListener(new Button.OnClickListener(){
                 @Override
@@ -122,7 +142,7 @@ public class EditActivity extends ActionBarActivity {
                     Todo todo = store.select(b.getString("todoId"));
                     todo.setLabel(label.getText().toString());
                     todo.setContent(content.getText().toString());
-                    todo.setTags(tags.getText().toString());
+                    todo.setTagList(tagslist);
 
                         //Setting up reminder
                     if(todo.getReminder() != null && todo.getReminder().isAfterNow())

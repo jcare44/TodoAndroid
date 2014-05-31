@@ -24,7 +24,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/listeView"
-            android:paddingTop="15px"
             android:layout_above="@+id/addingPart"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
@@ -37,6 +36,7 @@
             swipe:swipeActionLeft="dismiss"
             swipe:swipeActionRight="dismiss"
             swipe:swipeOpenOnLongPress="false"
+            android:dividerHeight="0dp"
             />
 
         <RelativeLayout
